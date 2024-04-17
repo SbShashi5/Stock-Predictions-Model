@@ -8,18 +8,21 @@ from plotly.subplots import make_subplots
 from sklearn.preprocessing import MinMaxScaler
 
 # Load the LSTM model
-model = load_model('D:\\stocks\\src\\Stock Predictions Model.keras')
+model = load_model('D:\\Stock-Predictions-Model-main\\Stock Predictions Model.keras')
 
 # Define Streamlit app
 st.header('Stock Market Predictor')
 
 # User input for stock symbol
-stock = st.text_input('Enter Stock Symbol', 'TATAMOTORS.NS')
-start = '2012-01-01'
-end = '2024-03-31'
+available_stocks = ['TATAMOTORS.NS', 'AAPL', 'GOOG', 'MSFT', 'AMZN']  # Add more stocks as needed
+selected_stock = st.selectbox('Select Stock Symbol', available_stocks)
+
+# User input for start and end dates
+start_date = st.date_input('Start Date', pd.to_datetime('today'), format='%d-%m-%Y')
+end_date = st.date_input('End Date', pd.to_datetime('today'), format='%d-%m-%Y')
 
 # Fetch data using yfinance
-data = yf.download(stock, start, end)
+data = yf.download(selected_stock, start=start_date, end=end_date)
 
 # Display stock data
 st.subheader('Stock Data')
@@ -52,15 +55,12 @@ predict = predict * scale
 y = y * scale
 
 # Interactive Visualization
-# Create dropdown menus for selecting different stocks and time periods
-available_stocks = ['TATAMOTORS.NS', 'AAPL', 'GOOG']  # Add more stocks as needed
+# Create dropdown menus for selecting different time periods
 available_time_periods = ['1Y', '2Y', '5Y']  # Add more time periods as needed
-
-selected_stock = st.selectbox('Select Stock Symbol', available_stocks)
 selected_time_period = st.selectbox('Select Time Period', available_time_periods)
 
 # Fetch data for the selected stock and time period
-selected_data = yf.download(selected_stock, start=selected_time_period)
+selected_data = yf.download(selected_stock, start=start_date, end=end_date)
 
 # Plot actual stock prices against predicted prices
 fig = make_subplots(rows=2, cols=1, shared_xaxes=True, vertical_spacing=0.1,
@@ -91,8 +91,7 @@ fig_moving_avg.add_trace(go.Scatter(x=data.index, y=ma_50_days, mode='lines', na
 fig_moving_avg.add_trace(go.Scatter(x=data.index, y=ma_100_days, mode='lines', name='MA100'), row=2, col=1)
 
 fig_moving_avg.add_trace(go.Scatter(x=data.index, y=data['Close'], mode='lines', name='Price'), row=3, col=1)
-fig_moving_avg.add_trace(go.Scatter(x=data.index, y=ma_100_days, mode='lines', name='MA100'), row=3, col=1)
-fig_moving_avg.add_trace(go.Scatter(x=data.index, y=ma_200_days, mode='lines', name='MA200'), row=3, col=1)
+
 
 fig_moving_avg.update_layout(title_text=f'Moving Averages for {selected_stock} ({selected_time_period})',
                              xaxis_title='Date', height=800)
