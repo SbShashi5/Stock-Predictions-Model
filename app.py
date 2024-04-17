@@ -18,8 +18,8 @@ available_stocks = ['TATAMOTORS.NS', 'AAPL', 'GOOG', 'MSFT', 'AMZN']  # Add more
 selected_stock = st.selectbox('Select Stock Symbol', available_stocks)
 
 # User input for start and end dates
-start_date = st.date_input('Start Date', pd.to_datetime('today'), format='YYYY/MM/DD')
-end_date = st.date_input('End Date', pd.to_datetime('today'), format='YYYY/MM/DD')
+start_date = st.date_input('Start Date', pd.to_datetime('today'), format='%Y/%m/%d')
+end_date = st.date_input('End Date', pd.to_datetime('today'), format='%Y/%m/%d')
 
 # Fetch data using yfinance
 data = yf.download(selected_stock, start=start_date, end=end_date)
@@ -54,10 +54,6 @@ scale = 1 / scaler.scale_
 predict = predict * scale
 y = y * scale
 
-
-# Fetch data for the selected stock and time period
-selected_data = yf.download(selected_stock, start=start_date, end=end_date)
-
 # Plot actual stock prices against predicted prices
 fig = make_subplots(rows=2, cols=1, shared_xaxes=True, vertical_spacing=0.1,
                     subplot_titles=('Actual vs Predicted Prices', 'Volume'))
@@ -66,7 +62,7 @@ fig.add_trace(go.Scatter(x=data.index, y=data['Close'], mode='lines', name='Actu
 fig.add_trace(go.Scatter(x=data.index, y=predict.flatten(), mode='lines', name='Predicted Price'), row=1, col=1)
 fig.add_trace(go.Bar(x=data.index, y=data['Volume'], name='Volume'), row=2, col=1)
 
-fig.update_layout(title_text=f'Stock Prices for {selected_stock} ({selected_time_period})',
+fig.update_layout(title_text=f'Stock Prices for {selected_stock} ({start_date.strftime("%Y-%m-%d")} to {end_date.strftime("%Y-%m-%d")})',
                   xaxis_title='Date', legend=dict(x=0, y=1), height=800)
 
 st.plotly_chart(fig)
@@ -88,8 +84,7 @@ fig_moving_avg.add_trace(go.Scatter(x=data.index, y=ma_100_days, mode='lines', n
 
 fig_moving_avg.add_trace(go.Scatter(x=data.index, y=data['Close'], mode='lines', name='Price'), row=3, col=1)
 
-
-fig_moving_avg.update_layout(title_text=f'Moving Averages for {selected_stock} ({selected_time_period})',
+fig_moving_avg.update_layout(title_text=f'Moving Averages for {selected_stock} ({start_date.strftime("%Y-%m-%d")} to {end_date.strftime("%Y-%m-%d")})',
                              xaxis_title='Date', height=800)
 
 st.plotly_chart(fig_moving_avg)
@@ -108,7 +103,7 @@ rsi = calculate_rsi(data['Close'])
 # Plot RSI
 fig_rsi = go.Figure()
 fig_rsi.add_trace(go.Scatter(x=data.index, y=rsi, mode='lines', name='RSI'))
-fig_rsi.update_layout(title_text=f'Relative Strength Index (RSI) for {selected_stock} ({selected_time_period})',
+fig_rsi.update_layout(title_text=f'Relative Strength Index (RSI) for {selected_stock} ({start_date.strftime("%Y-%m-%d")} to {end_date.strftime("%Y-%m-%d")})',
                       xaxis_title='Date', yaxis_title='RSI', legend=dict(x=0, y=1))
 st.plotly_chart(fig_rsi)
 
@@ -129,7 +124,7 @@ fig_macd = make_subplots(rows=2, cols=1, shared_xaxes=True, vertical_spacing=0.1
 fig_macd.add_trace(go.Scatter(x=data.index, y=macd, mode='lines', name='MACD'), row=1, col=1)
 fig_macd.add_trace(go.Scatter(x=data.index, y=signal, mode='lines', name='Signal'), row=2, col=1)
 
-fig_macd.update_layout(title_text=f'MACD for {selected_stock} ({selected_time_period})',
+fig_macd.update_layout(title_text=f'MACD for {selected_stock} ({start_date.strftime("%Y-%m-%d")} to {end_date.strftime("%Y-%m-%d")})',
                        xaxis_title='Date', height=800)
 
 st.plotly_chart(fig_macd)
@@ -150,6 +145,6 @@ fig_bb.add_trace(go.Scatter(x=data.index, y=data['Close'], mode='lines', name='P
 fig_bb.add_trace(go.Scatter(x=data.index, y=upper_band, mode='lines', name='Upper Bollinger Band'))
 fig_bb.add_trace(go.Scatter(x=data.index, y=lower_band, mode='lines', name='Lower Bollinger Band'))
 
-fig_bb.update_layout(title_text=f'Bollinger Bands for {selected_stock} ({selected_time_period})',
+fig_bb.update_layout(title_text=f'Bollinger Bands for {selected_stock} ({start_date.strftime("%Y-%m-%d")} to {end_date.strftime("%Y-%m-%d")})',
                      xaxis_title='Date', yaxis_title='Price', legend=dict(x=0, y=1))
 st.plotly_chart(fig_bb)
