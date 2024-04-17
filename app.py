@@ -54,10 +54,6 @@ scale = 1 / scaler.scale_
 predict = predict * scale
 y = y * scale
 
-# Interactive Visualization
-# Create dropdown menus for selecting different time periods
-available_time_periods = ['1Y', '2Y', '5Y']  # Add more time periods as needed
-selected_time_period = st.selectbox('Select Time Period', available_time_periods)
 
 # Fetch data for the selected stock and time period
 selected_data = yf.download(selected_stock, start=start_date, end=end_date)
