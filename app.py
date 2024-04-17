@@ -56,7 +56,7 @@ y = y * scale
 
 # Plot actual stock prices against predicted prices
 fig = make_subplots(rows=2, cols=1, shared_xaxes=True, vertical_spacing=0.1,
-                    subplot_titles=('Actual vs Predicted Prices', 'Volume'))
+                    subplot_titles=('Stock deviation', 'Volume'))
 
 fig.add_trace(go.Scatter(x=data.index, y=data['Close'], mode='lines', name='Actual Price'), row=1, col=1)
 '''fig.add_trace(go.Scatter(x=data.index, y=predict.flatten(), mode='lines', name='Predicted Price'), row=1, col=1)'''
