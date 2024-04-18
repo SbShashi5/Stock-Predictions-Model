@@ -77,7 +77,7 @@ ma_100_days = data['Close'].rolling(100).mean()
 
 
 fig_moving_avg = make_subplots(rows=3, cols=1, shared_xaxes=True, vertical_spacing=0.1,
-                              subplot_titles=('Price vs MA50', 'Price vs MA50 vs MA100', 'Price vs MA100 vs MA200'))
+                              subplot_titles=('Price vs MA50', 'Price vs MA50 vs MA100'))
 
 fig_moving_avg.add_trace(go.Scatter(x=data.index, y=data['Close'], mode='lines', name='Price'), row=1, col=1)
 fig_moving_avg.add_trace(go.Scatter(x=data.index, y=ma_50_days, mode='lines', name='MA50'), row=1, col=1)
