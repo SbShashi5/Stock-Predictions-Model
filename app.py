@@ -86,7 +86,7 @@ fig_moving_avg.add_trace(go.Scatter(x=data.index, y=data['Close'], mode='lines',
 fig_moving_avg.add_trace(go.Scatter(x=data.index, y=ma_50_days, mode='lines', name='MA50'), row=2, col=1)
 fig_moving_avg.add_trace(go.Scatter(x=data.index, y=ma_100_days, mode='lines', name='MA100'), row=2, col=1)
 
-fig_moving_avg.add_trace(go.Scatter(x=data.index, y=data['Close'], mode='lines', name='Price'), row=3, col=1)
+
 
 fig_moving_avg.update_layout(title_text=f'Moving Averages for {selected_stock} ({start_date.strftime("YYYY/MM/DD")} to {end_date.strftime("YYYY/MM/DD")})',
                              xaxis_title='Date', height=800)
