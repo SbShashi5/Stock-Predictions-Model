@@ -74,7 +74,7 @@ st.plotly_chart(fig)
 # Plot moving averages
 ma_50_days = data['Close'].rolling(50).mean()
 ma_100_days = data['Close'].rolling(100).mean()
-ma_200_days = data['Close'].rolling(200).mean()
+
 
 fig_moving_avg = make_subplots(rows=3, cols=1, shared_xaxes=True, vertical_spacing=0.1,
                               subplot_titles=('Price vs MA50', 'Price vs MA50 vs MA100', 'Price vs MA100 vs MA200'))
