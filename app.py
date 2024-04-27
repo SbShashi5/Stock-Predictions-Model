@@ -79,6 +79,7 @@ st.plotly_chart(fig)
 
 
 
+
 # Calculate moving averages
 ma_50_days = data['Close'].rolling(50).mean()
 ma_100_days = data['Close'].rolling(100).mean()
