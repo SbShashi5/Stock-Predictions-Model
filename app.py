@@ -11,7 +11,7 @@ from sklearn.preprocessing import MinMaxScaler
 model = load_model('D:\\Stock-Predictions-Model-main\\Stock Predictions Model.keras')
 
 # Define Streamlit app
-st.header('Stock Market Predictor')
+st.header('Stock Market Analyzer')
 
 # User input for stock symbol
 available_stocks = ['TATAMOTORS.NS', 'AAPL', 'GOOG', 'MSFT', 'AMZN']  # Add more stocks as needed
