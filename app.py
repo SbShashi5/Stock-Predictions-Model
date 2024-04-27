@@ -112,25 +112,26 @@ fig_rsi.update_layout(title_text=f'Relative Strength Index (RSI) for {selected_s
                       xaxis_title='Date', yaxis_title='RSI', legend=dict(x=0, y=1))
 st.plotly_chart(fig_rsi)
 
-# Calculate MACD
+# Plot MACD
 def calculate_macd(data, short_window=12, long_window=26):
     short_ema = data['Close'].ewm(span=short_window, min_periods=1).mean()
     long_ema = data['Close'].ewm(span=long_window, min_periods=1).mean()
     macd = short_ema - long_ema
     signal = macd.ewm(span=9, min_periods=1).mean()
-    return macd, signal
+    histogram = macd - signal
+    return macd, signal, histogram
 
-macd, signal = calculate_macd(data)
+macd, signal, histogram = calculate_macd(data)
 
 # Plot MACD
-fig_macd = make_subplots(rows=2, cols=1, shared_xaxes=True, vertical_spacing=0.1,
-                         subplot_titles=('MACD Line', 'Signal Line'))
+fig_macd = go.Figure()
 
-fig_macd.add_trace(go.Scatter(x=data.index, y=macd, mode='lines', name='MACD'), row=1, col=1)
-fig_macd.add_trace(go.Scatter(x=data.index, y=signal, mode='lines', name='Signal'), row=2, col=1)
+fig_macd.add_trace(go.Scatter(x=data.index, y=macd, mode='lines', name='MACD'))
+fig_macd.add_trace(go.Scatter(x=data.index, y=signal, mode='lines', name='Signal'))
+fig_macd.add_trace(go.Bar(x=data.index, y=histogram, name='Histogram', marker_color='rgba(0, 128, 0, 0.5)'))
 
-fig_macd.update_layout(title_text=f'MACD for {selected_stock} ({start_date.strftime("YYYY/MM/DD")} to {end_date.strftime("YYYY/MM/DD")})',
-                       xaxis_title='Date', height=800)
+fig_macd.update_layout(title_text=f'MACD for {selected_stock} ({start_date.strftime("%Y/%m/%d")} to {end_date.strftime("%Y/%m/%d")})',
+                       xaxis_title='Date', yaxis_title='MACD', legend=dict(x=0, y=1), height=600)
 
 st.plotly_chart(fig_macd)
 
