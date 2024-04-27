@@ -55,27 +55,25 @@ scale = 1 / scaler.scale_
 predict = predict * scale
 y = y * scale
 
-# Plot actual stock prices as candlestick chart with volume
-fig = make_subplots(rows=2, cols=1, shared_xaxes=True, vertical_spacing=0.1,
-                    subplot_titles=('Candlestick Chart', 'Volume'))
+# Plot actual stock prices as candlestick chart
+fig_candlestick = go.Figure()
+fig_candlestick.add_trace(go.Candlestick(x=data.index,
+                                         open=data['Open'],
+                                         high=data['High'],
+                                         low=data['Low'],
+                                         close=data['Close'],
+                                         name='Candlestick'))
+fig_candlestick.update_layout(title_text=f'Candlestick Chart for {selected_stock} ({start_date.strftime("%Y/%m/%d")} to {end_date.strftime("%Y/%m/%d")})',
+                              xaxis_title='Date', yaxis_title='Price', legend=dict(x=0, y=1))
+st.plotly_chart(fig_candlestick)
 
-# Candlestick chart
-fig.add_trace(go.Candlestick(x=data.index,
-                open=data['Open'],
-                high=data['High'],
-                low=data['Low'],
-                close=data['Close'],
-                name='Candlestick'), row=1, col=1)
+# Plot volume
+fig_volume = go.Figure()
+fig_volume.add_trace(go.Bar(x=data.index, y=data['Volume'], name='Volume', marker_color='blue'))
+fig_volume.update_layout(title_text=f'Volume for {selected_stock} ({start_date.strftime("%Y/%m/%d")} to {end_date.strftime("%Y/%m/%d")})',
+                         xaxis_title='Date', yaxis_title='Volume', legend=dict(x=0, y=1))
+st.plotly_chart(fig_volume)
 
-# Volume
-fig.add_trace(go.Bar(x=data.index, y=data['Volume'], name='Volume'), row=2, col=1)
-
-# Update layout
-fig.update_layout(title_text=f'Stock Prices and Volume for {selected_stock} ({start_date.strftime("%Y/%m/%d")} to {end_date.strftime("%Y/%m/%d")})',
-                  xaxis_title='Date', legend=dict(x=0, y=1), height=800)
-
-# Show plot
-st.plotly_chart(fig)
 
 
 
