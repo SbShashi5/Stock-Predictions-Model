@@ -18,7 +18,7 @@ available_stocks = ['TATAMOTORS.NS', 'AAPL', 'GOOG', 'MSFT', 'AMZN']  # Add more
 selected_stock = st.selectbox('Select Stock Symbol', available_stocks)
 
 # User input for start and end dates
-start_date = st.date_input('Start Date', pd.to_datetime('today'), format='YYYY/MM/DD')
+start_date = st.date_input('Start Date', pd.to_datetime('yesterday'), format='YYYY/MM/DD')
 end_date = st.date_input('End Date', pd.to_datetime('today'), format='YYYY/MM/DD')
 
 # Fetch data using yfinance
