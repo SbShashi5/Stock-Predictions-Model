@@ -57,7 +57,7 @@ y = y * scale
 
 # Plot actual stock prices as candlestick chart with volume
 fig = make_subplots(rows=2, cols=1, shared_xaxes=True, vertical_spacing=0.1,
-                    subplot_titles=('Stock Price', 'Volume'))
+                    subplot_titles=('Candlestick Chart', 'Volume'))
 
 # Candlestick chart
 fig.add_trace(go.Candlestick(x=data.index,
@@ -71,11 +71,12 @@ fig.add_trace(go.Candlestick(x=data.index,
 fig.add_trace(go.Bar(x=data.index, y=data['Volume'], name='Volume'), row=2, col=1)
 
 # Update layout
-fig.update_layout(title_text=f'Stock Prices for {selected_stock} ({start_date.strftime("%Y/%m/%d")} to {end_date.strftime("%Y/%m/%d")})',
+fig.update_layout(title_text=f'Stock Prices and Volume for {selected_stock} ({start_date.strftime("%Y/%m/%d")} to {end_date.strftime("%Y/%m/%d")})',
                   xaxis_title='Date', legend=dict(x=0, y=1), height=800)
 
 # Show plot
 st.plotly_chart(fig)
+
 
 
 # Calculate moving averages
