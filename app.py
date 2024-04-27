@@ -72,27 +72,23 @@ fig.update_layout(title_text=f'Stock Prices for {selected_stock} ({start_date.st
 
 st.plotly_chart(fig)
 
-# Plot moving averages
+# Calculate moving averages
 ma_50_days = data['Close'].rolling(50).mean()
 ma_100_days = data['Close'].rolling(100).mean()
+ma_200_days = data['Close'].rolling(200).mean()
 
+# Plot Price vs Moving Averages
+fig_ma = go.Figure()
 
-fig_moving_avg = make_subplots(rows=3, cols=1, shared_xaxes=True, vertical_spacing=0.1,
-                              subplot_titles=('Price vs MA50', 'Price vs MA50 vs MA100'))
+fig_ma.add_trace(go.Scatter(x=data.index, y=data['Close'], mode='lines', name='Price'))
+fig_ma.add_trace(go.Scatter(x=data.index, y=ma_50_days, mode='lines', name='MA50'))
+fig_ma.add_trace(go.Scatter(x=data.index, y=ma_100_days, mode='lines', name='MA100'))
+fig_ma.add_trace(go.Scatter(x=data.index, y=ma_200_days, mode='lines', name='MA200'))
 
-fig_moving_avg.add_trace(go.Scatter(x=data.index, y=data['Close'], mode='lines', name='Price'), row=1, col=1)
-fig_moving_avg.add_trace(go.Scatter(x=data.index, y=ma_50_days, mode='lines', name='MA50'), row=1, col=1)
+fig_ma.update_layout(title_text=f'Price vs Moving Averages for {selected_stock} ({start_date.strftime("%Y/%m/%d")} to {end_date.strftime("%Y/%m/%d")})',
+                     xaxis_title='Date', yaxis_title='Price', legend=dict(x=0, y=1), height=600)
 
-fig_moving_avg.add_trace(go.Scatter(x=data.index, y=data['Close'], mode='lines', name='Price'), row=2, col=1)
-fig_moving_avg.add_trace(go.Scatter(x=data.index, y=ma_50_days, mode='lines', name='MA50'), row=2, col=1)
-fig_moving_avg.add_trace(go.Scatter(x=data.index, y=ma_100_days, mode='lines', name='MA100'), row=2, col=1)
-
-
-
-fig_moving_avg.update_layout(title_text=f'Moving Averages for {selected_stock} ({start_date.strftime("YYYY/MM/DD")} to {end_date.strftime("YYYY/MM/DD")})',
-                             xaxis_title='Date', height=800)
-
-st.plotly_chart(fig_moving_avg)
+st.plotly_chart(fig_ma)
 
 # Calculate RSI
 def calculate_rsi(data, window=14):
