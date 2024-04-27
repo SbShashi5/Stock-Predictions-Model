@@ -55,22 +55,28 @@ scale = 1 / scaler.scale_
 predict = predict * scale
 y = y * scale
 
-# Plot actual stock prices against predicted prices
+# Plot actual stock prices as candlestick chart with volume
 fig = make_subplots(rows=2, cols=1, shared_xaxes=True, vertical_spacing=0.1,
-                    subplot_titles=('Stock deviation', 'Volume'))
+                    subplot_titles=('Stock Price', 'Volume'))
 
-fig.add_trace(go.Scatter(x=data.index, y=data['Close'], mode='lines', name='Price'), row=1, col=1)
+# Candlestick chart
+fig.add_trace(go.Candlestick(x=data.index,
+                open=data['Open'],
+                high=data['High'],
+                low=data['Low'],
+                close=data['Close'],
+                name='Candlestick'), row=1, col=1)
 
-
-
-
-
+# Volume
 fig.add_trace(go.Bar(x=data.index, y=data['Volume'], name='Volume'), row=2, col=1)
 
-fig.update_layout(title_text=f'Stock Prices for {selected_stock} ({start_date.strftime("YYYY/MM/DD")} to {end_date.strftime("YYYY/MM/DD")})',
+# Update layout
+fig.update_layout(title_text=f'Stock Prices for {selected_stock} ({start_date.strftime("%Y/%m/%d")} to {end_date.strftime("%Y/%m/%d")})',
                   xaxis_title='Date', legend=dict(x=0, y=1), height=800)
 
+# Show plot
 st.plotly_chart(fig)
+
 
 # Calculate moving averages
 ma_50_days = data['Close'].rolling(50).mean()
