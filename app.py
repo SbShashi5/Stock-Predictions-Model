@@ -6,7 +6,22 @@ import streamlit as st
 import plotly.graph_objects as go
 from plotly.subplots import make_subplots
 from sklearn.preprocessing import MinMaxScaler
+import base64
 
+# Load the image
+def load_image(image_path):
+    with open(image_path, "rb") as f:
+        data = f.read()
+    return base64.b64encode(data).decode("utf-8")
+
+# Define the file path of your image
+image_path = "path/to/your/image.jpg"  # Replace this with the actual file path of your image
+
+# Get the base64 representation of the image
+image_base64 = load_image(image_path)
+
+# Define Streamlit app
+st.header('Stock Market Analyzer')
 # Load the LSTM model
 model = load_model('D:\\Stock-Predictions-Model-main\\Stock Predictions Model.keras')
 
