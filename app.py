@@ -6,6 +6,7 @@ import streamlit as st
 import plotly.graph_objects as go
 from plotly.subplots import make_subplots
 from sklearn.preprocessing import MinMaxScaler
+import base64
 
 side_bg = 'D:\\Stock-Predictions-Model-main\\bg1.jpg'
 
