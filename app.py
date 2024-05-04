@@ -122,5 +122,8 @@ fig.add_trace(go.Scatter(x=data.index, y=upper_band, mode='lines', name='Upper B
 fig.add_trace(go.Scatter(x=data.index, y=lower_band, mode='lines', name='Lower Bollinger Band'), row=3, col=2)
 
 # Update layout
-fig.update_layout(height=1000, width=1000, showlegend=False, title_text=f'Stock Analysis for {selected_stock}')
+fig.update_layout(height=1500, width=1200, showlegend=False, title_text=f'Stock Analysis for {selected_stock}',
+                  margin=dict(l=40, r=40, t=100, b=40),
+                  paper_bgcolor="LightSteelBlue",
+                  plot_bgcolor="LightSteelBlue")
 st.plotly_chart(fig)
