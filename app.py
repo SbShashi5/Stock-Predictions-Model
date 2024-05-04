@@ -15,7 +15,7 @@ def load_image(image_path):
     return base64.b64encode(data).decode("utf-8")
 
 # Define the file path of your image
-image_path = "path/to/your/image.jpg"  # Replace this with the actual file path of your image
+image_path = "D:\\Stock-Predictions-Model-main\\bg1.jpg"  # Replace this with the actual file path of your image
 
 # Get the base64 representation of the image
 image_base64 = load_image(image_path)
