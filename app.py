@@ -130,7 +130,7 @@ fig_macd = go.Figure()
 
 fig_macd.add_trace(go.Scatter(x=data.index, y=macd, mode='lines', name='MACD'))
 fig_macd.add_trace(go.Scatter(x=data.index, y=signal, mode='lines', name='Signal'))
-fig_macd.add_trace(go.Bar(x=data.index, y=histogram, name='Histogram', marker_color='rgba(0, 128, 0, 0.5)'))
+fig_macd.add_trace(go.Bar(x=data.index, y=histogram, name='Histogram', marker_color='#6EB13F'))
 
 fig_macd.update_layout(title_text=f'MACD for {selected_stock} ({start_date.strftime("%Y/%m/%d")} to {end_date.strftime("%Y/%m/%d")})',
                        xaxis_title='Date', yaxis_title='MACD', legend=dict(x=0, y=1), height=600)
