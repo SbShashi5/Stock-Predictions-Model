@@ -125,5 +125,5 @@ fig.add_trace(go.Scatter(x=data.index, y=lower_band, mode='lines', name='Lower B
 fig.update_layout(height=1500, width=1200, showlegend=False, title_text=f'Stock Analysis for {selected_stock}',
                   margin=dict(l=40, r=40, t=100, b=40),
                   paper_bgcolor="LightSteelBlue",
-                  plot_bgcolor="LightSteelBlue")
+                  plot_bgcolor="#352323")
 st.plotly_chart(fig)
