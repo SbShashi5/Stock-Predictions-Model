@@ -11,7 +11,6 @@ from sklearn.preprocessing import MinMaxScaler
 model = load_model('D:\\Stock-Predictions-Model-main\\Stock Predictions Model.keras')
 
 # Define Streamlit app
-st.set_page_config(layout="wide")
 st.header('Stock Market Analyzer')
 
 # User input for stock symbol
@@ -21,6 +20,7 @@ selected_stock = st.selectbox('Select Stock Symbol', available_stocks)
 # User input for start and end dates
 start_date = st.date_input('Start Date', pd.to_datetime('2021-04-27'), format='YYYY/MM/DD')
 end_date = st.date_input('End Date', pd.to_datetime('today'), format='YYYY/MM/DD')
+
 
 # Fetch data using yfinance
 data = yf.download(selected_stock, start=start_date, end=end_date)
@@ -74,25 +74,26 @@ fig_volume.update_layout(title_text=f'Volume for {selected_stock} ({start_date.s
                          xaxis_title='Date', yaxis_title='Volume', legend=dict(x=0, y=1))
 st.plotly_chart(fig_volume)
 
-# Calculate moving averages
-def calculate_moving_averages(data, short_window=50, medium_window=100, long_window=200):
-    ma_short = data['Close'].rolling(window=short_window).mean()
-    ma_medium = data['Close'].rolling(window=medium_window).mean()
-    ma_long = data['Close'].rolling(window=long_window).mean()
-    return ma_short, ma_medium, ma_long
 
-ma_short, ma_medium, ma_long = calculate_moving_averages(data)
+
+
+
+# Calculate moving averages
+ma_50_days = data['Close'].rolling(50).mean()
+ma_100_days = data['Close'].rolling(100).mean()
+ma_200_days = data['Close'].rolling(200).mean()
 
 # Plot Price vs Moving Averages
 fig_ma = go.Figure()
 
 fig_ma.add_trace(go.Scatter(x=data.index, y=data['Close'], mode='lines', name='Price'))
-fig_ma.add_trace(go.Scatter(x=data.index, y=ma_short, mode='lines', name='MA50'))
-fig_ma.add_trace(go.Scatter(x=data.index, y=ma_medium, mode='lines', name='MA100'))
-fig_ma.add_trace(go.Scatter(x=data.index, y=ma_long, mode='lines', name='MA200'))
+fig_ma.add_trace(go.Scatter(x=data.index, y=ma_50_days, mode='lines', name='MA50'))
+fig_ma.add_trace(go.Scatter(x=data.index, y=ma_100_days, mode='lines', name='MA100'))
+fig_ma.add_trace(go.Scatter(x=data.index, y=ma_200_days, mode='lines', name='MA200'))
 
 fig_ma.update_layout(title_text=f'Price vs Moving Averages for {selected_stock} ({start_date.strftime("%Y/%m/%d")} to {end_date.strftime("%Y/%m/%d")})',
                      xaxis_title='Date', yaxis_title='Price', legend=dict(x=0, y=1), height=600)
+
 st.plotly_chart(fig_ma)
 
 # Calculate RSI
