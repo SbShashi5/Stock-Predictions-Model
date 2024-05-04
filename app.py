@@ -8,7 +8,7 @@ from plotly.subplots import make_subplots
 from sklearn.preprocessing import MinMaxScaler
 
 # Load the LSTM model
-model = load_model('D:\\Stock-Predictions-Model-main\\Stock_Predictions_Model.keras')
+model = load_model('D:\\Stock-Predictions-Model-main\\Stock Predictions Model.keras')
 
 # Define Streamlit app
 st.set_page_config(layout="wide")
