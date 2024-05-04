@@ -8,7 +8,6 @@ from plotly.subplots import make_subplots
 from sklearn.preprocessing import MinMaxScaler
 
 side_bg = 'D:\\Stock-Predictions-Model-main\\bg1.jpg'
-sidebar_bg(side_bg)
 
 def sidebar_bg(side_bg):
 
@@ -25,6 +24,8 @@ def sidebar_bg(side_bg):
       unsafe_allow_html=True,
       )
    
+sidebar_bg(side_bg)
+
 # Load the LSTM model
 model = load_model('D:\\Stock-Predictions-Model-main\\Stock Predictions Model.keras')
 
